@@ -14,6 +14,8 @@ public class adminhome extends JApplet {
 	 */
 	public adminhome() {
 		getContentPane().setLayout(null);
+		setBounds(0,0,800,600);
+		
 		
 		JButton btnChangeAge = new JButton("Change Age");
 		btnChangeAge.setBounds(6, 249, 117, 29);
@@ -36,7 +38,7 @@ public class adminhome extends JApplet {
 		getContentPane().add(comboBox_1);
 		
 		JLabel lblChild = new JLabel("Child");
-		lblChild.setBounds(23, 6, 61, 16);
+		lblChild.setBounds(0, 6, 61, 16);
 		getContentPane().add(lblChild);
 		
 		JLabel lblLevel = new JLabel("Level");
@@ -68,7 +70,7 @@ public class adminhome extends JApplet {
 		getContentPane().add(btnFullStats);
 		
 		JLabel lblNewLabel = new JLabel("Scores");
-		lblNewLabel.setBounds(318, 16, 104, 179);
+		lblNewLabel.setBounds(686, 76, 104, 179);
 		getContentPane().add(lblNewLabel);
 		
 		
