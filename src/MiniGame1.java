@@ -34,7 +34,7 @@ public class MiniGame1 extends JApplet {
 	private int mistake = 0;
 	private String[] Backgrounds = {"Background 1" , "Background 2" , "Background 3" , "Background 4" , "Background 5" , "Background 6" , "Background 7" , "Background 8" , "Background 9" , "Background 10" , "Background 11" , "Background 12"}; 
 	private String[] Pokemon = {"Blastoise" , "Charizard" , "Gyrados" , "Mew" , "Mewtwo" , "Nidoking" , "Nidoqueen" , "Pidgeot" , "Pikachu" , "Poliwrath" , "Venasaur"};
-	private String[] levels = {"1" , "2" , "3" , "4" , "5" , "6" , "7" , "8" , "9" , "10" , "11" , "12"}; 
+	private String[] levels = {"Level 1" , "Level 2" , "Level 3" , "Level 4" , "Level 5" , "Level 6" , "Level 7" , "Level 8" , "Level 9" , "Level 10" , "Level 11" , "Level 12"}; 
 	private int lastbindex = 0;
 	private int lastpindex = 0;
 	private int lastlindex = 0;
@@ -82,6 +82,7 @@ public class MiniGame1 extends JApplet {
 	public MiniGame1() {
 
 		setBounds(0,0,800,600);
+		setVisible(true);
 		getContentPane().setLayout(null);
 		
 		BackGroundLevel1 = new JLabel("BackGround1");
@@ -737,6 +738,7 @@ public class MiniGame1 extends JApplet {
 			Final_Mistake_Player.setVisible(false);
 			correct = 0;
 			mistake = 0;
+			
 		}
 	}
 	
