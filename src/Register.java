@@ -23,7 +23,11 @@ public class Register extends JApplet {
 	private int securityQ;
 	private String securityanswer;
 	private String[] questions = {"Question 1" , "Question 2" , "Question 3"};
-	public Register mg;
+	private int f_uid = 123456789;
+	private String f_name = "Mark";
+	private String defaultPass = "cs2212";
+	Parent parent;
+	private int m_level;
 	
 	private JLabel ProfessorOak;
 	private JLabel OakPokeball;
@@ -105,6 +109,10 @@ public class Register extends JApplet {
 	private JPanel MiniGame;
 	private JPanel Register;
 	private JPanel DrillMode;
+	private JTextArea txtrYouHaveNot;
+	private JTextArea txtrYouHaveNot_1;
+	private JPanel EmptyPanel;
+	private JButton btnPlayMinigame;
 	/**
 	 * Create the applet.
 	 */
@@ -124,6 +132,7 @@ public class Register extends JApplet {
 		getContentPane().setLayout(null);
 		
 		BackGroundLevel1 = new JLabel("BackGround1");
+		BackGroundLevel1.setVisible(false);
 		
 		First_Mistake_Enemy = new JLabel("First Correct");
 		First_Mistake_Enemy.setVisible(false);
@@ -199,7 +208,7 @@ public class Register extends JApplet {
 		
 		Level1 = new JLabel("1");
 		Level1.setIcon(new ImageIcon(Register.class.getResource("/Icons/Level_Folder/1.png")));
-		Level1.setVisible(true);
+		Level1.setVisible(false);
 		Level1.setBounds(190, 42, 15, 12);
 		MiniGame.add(Level1);
 		
@@ -291,6 +300,7 @@ public class Register extends JApplet {
 		MiniGame.add(Female_Player);
 		
 		Pokemon1 = new JLabel("Blastoise");
+		Pokemon1.setVisible(false);
 		Pokemon1.setIcon(new ImageIcon(Register.class.getResource("/Icons/Pokemon/Blastoise.png")));
 		Pokemon1.setBounds(480, 30, 215, 215);
 		MiniGame.add(Pokemon1);
@@ -451,12 +461,6 @@ public class Register extends JApplet {
 		BackGroundSwitch.setBounds(234, 446, 162, 20);
 		MiniGame.add(BackGroundSwitch);
 		
-		PokemonSwitch = new JComboBox(Pokemon);
-		PokemonSwitch.setSelectedIndex(0);
-		PokemonSwitch.addActionListener(new switchpokemon());
-		PokemonSwitch.setBounds(234, 480, 162, 20);
-		MiniGame.add(PokemonSwitch);
-		
 		LevelSwitch = new JComboBox(levels);
 		LevelSwitch.setSelectedIndex(0);
 		LevelSwitch.addActionListener(new switchlevel());
@@ -544,13 +548,44 @@ public class Register extends JApplet {
 		txtrCongratulationsYourChildrens.setOpaque(false);
 		txtrCongratulationsYourChildrens.setBounds(10, 413, 624, 176);
 		Register.add(txtrCongratulationsYourChildrens);
-		txtrCongratulationsYourChildrens.setText("Congratulations! Your child(ren)(s) very own Pok\u00E9mon \r\nmathematical adventure is about to unfold! A world of dreams \r\nand adventures with Mathematics awaits! Your password is \r\ncurrently set to the default of cs2212. You can change that in \r\nthe Admin section. Now let's go and add your children!");
+		txtrCongratulationsYourChildrens.setText("Congratulations! Your child's very own Pok\u00E9mon \r\nmathematical adventure is about to unfold! A world of dreams \r\nand adventures with Mathematics awaits! Your password is \r\ncurrently set to the default of cs2212. You can change that in \r\nthe Admin section. Now let's go and add your children!");
 		txtrCongratulationsYourChildrens.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		txtrCongratulationsYourChildrens.setFocusable(false);
 		txtrCongratulationsYourChildrens.setEditable(false);
 		btnSubmit.addActionListener(new submit() );
+		
+		EmptyPanel = new JPanel();
+		EmptyPanel.setBounds(0, 0, 800, 600);
+		getContentPane().add(EmptyPanel);
+		EmptyPanel.setLayout(null);
+		
+		btnPlayMinigame = new JButton("Play MiniGame");
+		btnPlayMinigame.setBounds(211, 271, 113, 23);
+		EmptyPanel.add(btnPlayMinigame);
+		btnPlayMinigame.addActionListener(new PlayMGame());
 		getContentPane().add(Register);
 		Register.setEnabled(true);
+		
+		txtrYouHaveNot = new JTextArea();
+		txtrYouHaveNot.setVisible(false);
+		txtrYouHaveNot.setFocusable(false);
+		txtrYouHaveNot.setEditable(false);
+		txtrYouHaveNot.setFont(new Font("Monospaced", Font.PLAIN, 16));
+		txtrYouHaveNot.setText("You have not entered a username. Please try again.");
+		txtrYouHaveNot.setOpaque(false);
+		txtrYouHaveNot.setBounds(10, 413, 609, 176);
+		Register.add(txtrYouHaveNot);
+		
+		txtrYouHaveNot_1 = new JTextArea();
+		txtrYouHaveNot_1.setVisible(false);
+		txtrYouHaveNot_1.setText("You have not entered an answer to the security question. \r\nPlease try again.");
+		txtrYouHaveNot_1.setOpaque(false);
+		txtrYouHaveNot_1.setEnabled(false);
+		txtrYouHaveNot_1.setEditable(false);
+		txtrYouHaveNot_1.setFont(new Font("Monospaced", Font.PLAIN, 16));
+		txtrYouHaveNot_1.setFocusable(false);
+		txtrYouHaveNot_1.setBounds(10, 413, 609, 176);
+		Register.add(txtrYouHaveNot_1);
 		LevelSwitch.setBounds(234, 514, 162, 20);
 		MiniGame.add(LevelSwitch);
 		
@@ -568,39 +603,172 @@ public class Register extends JApplet {
 		DrillMode.setBounds(0, 0, 800, 600);
 		getContentPane().add(DrillMode);
 		DrillMode.setLayout(null);
+		
+		runtime();
 
 	}
 	
+	public void runtime() {
+		EmptyPanel.setEnabled(false);
+		EmptyPanel.setVisible(false);
+		Register.setEnabled(true);
+		Register.setVisible(true);
+		MiniGame.setEnabled(false);
+		MiniGame.setVisible(false);
+		DrillMode.setEnabled(false);
+		DrillMode.setVisible(false);
+		
+	/*	parent = new Parent(f_uid);
+		if (parent.getStatus() == 0){
+			System.out.println("0");
+			EmptyPanel.setEnabled(false);
+			EmptyPanel.setVisible(false);
+			Register.setEnabled(true);
+			Register.setVisible(true);
+			getContentPane().revalidate();
+			Register.revalidate();
+			Register.validate();
+			getContentPane().validate();
+			
+		}
+		else if (parent.getStatus() == 1){
+			System.out.println("1");
+			EmptyPanel.setEnabled(false);
+			EmptyPanel.setVisible(false);
+			MiniGame.setEnabled(true);
+			MiniGame.setVisible(true);
+		}
+		
+		else {
+			System.out.println("doesn't work");
+		}*/
+		
+		
+		
+	}
+	
+	private class PlayMGame implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			
+			EmptyPanel.setVisible(false);
+			EmptyPanel.setEnabled(false);
+			btnPlayMinigame.setVisible(false);
+			btnPlayMinigame.setEnabled(false);
+			MiniGame.setVisible(true);
+			MiniGame.setEnabled(true);
+	//		m_level = child.PlayMiniGame();
+			m_level = 5;
+			switch (m_level){
+			
+				case 5:
+					BackGroundLevel5.setVisible(true);
+					Level5.setVisible(true);
+				//	Pokemon3.setVisible(true);
+				
+			}	
+			
+			CreaterandomPokemon();	
+			
+		}
+	}
+	
+	private void CreaterandomPokemon (){
+		int pokemon = (int)(Math.random()*1000)%11 + 1;
+		invisPokemon();
+		if (pokemon == 1){
+			Pokemon1.setVisible(true);
+		}
+		else if (pokemon == 2){
+			Pokemon2.setVisible(true);
+		}
+		else if (pokemon == 3){
+			Pokemon3.setVisible(true);
+		}
+		else if (pokemon == 4){
+			Pokemon4.setVisible(true);
+		}
+		else if (pokemon == 5){
+			Pokemon5.setVisible(true);
+		}
+		else if (pokemon == 6){
+			Pokemon6.setVisible(true);
+		}
+		else if (pokemon == 7){
+			Pokemon7.setVisible(true);
+		}
+		else if (pokemon == 8){
+			Pokemon8.setVisible(true);
+		}
+		else if (pokemon == 9){
+			Pokemon9.setVisible(true);
+		}
+		else if (pokemon == 10){
+			Pokemon10.setVisible(true);
+		}
+		else if (pokemon == 11){
+			Pokemon11.setVisible(true);
+		}
+	}
+
 	private class enter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			if (Username.isVisible()){
-				username = Username.getSelectedText();
-				Username.setVisible(false);
-				Username.setEnabled(false);
-				SecurityQuestion.setVisible(true);
-				SecurityQuestion.setEnabled(true);
-				SecurityAnswer.setVisible(true);
-				SecurityAnswer.setEnabled(true);
-				SecurityAnswer.setFocusable(true);
-				txtrHelloThereWelcome.setVisible(false);
-				txtrHelloThereWelcome.setEnabled(false);
-				txtrThankyou.setVisible(true);
-				txtrThankyou.setEnabled(true);
+				if (Username.getText().isEmpty()){
+					txtrHelloThereWelcome.setVisible(false);
+					txtrHelloThereWelcome.setEnabled(false);
+					txtrYouHaveNot.setVisible(true);
+					txtrYouHaveNot.setEnabled(true);
+					Username.requestFocus();
+				}
+				else {
+					username = Username.getText();
+					txtrYouHaveNot.setVisible(false);
+					txtrYouHaveNot.setEnabled(false);
+					Username.setFocusable(false);
+					Username.setVisible(false);
+					Username.setEnabled(false);
+					SecurityQuestion.setVisible(true);
+					SecurityQuestion.setEnabled(true);
+					SecurityAnswer.setVisible(true);
+					SecurityAnswer.setEnabled(true);
+					SecurityAnswer.setFocusable(true);
+					SecurityAnswer.requestFocus();
+					txtrHelloThereWelcome.setVisible(false);
+					txtrHelloThereWelcome.setEnabled(false);
+					txtrThankyou.setVisible(true);
+					txtrThankyou.setEnabled(true);
+				}
 			}
 			
 			else if (!Username.isVisible() && SecurityAnswer.isVisible()){
-				securityQ = SecurityQuestion.getSelectedIndex();
-				securityanswer = SecurityAnswer.getSelectedText();
-				SecurityQuestion.setVisible(false);
-				SecurityQuestion.setEnabled(false);
-				SecurityAnswer.setVisible(false);
-				SecurityAnswer.setEnabled(false);
-				txtrThankyou.setVisible(false);
-				txtrThankyou.setEnabled(false);
-				txtrCongratulationsYourChildrens.setVisible(true);
-				txtrCongratulationsYourChildrens.setEnabled(true);
+				if (SecurityAnswer.getText().isEmpty()){
+					txtrThankyou.setVisible(false);
+					txtrThankyou.setEnabled(false);
+					txtrYouHaveNot_1.setVisible(true);
+					txtrYouHaveNot_1.setEnabled(true);
+					SecurityAnswer.setFocusable(true);
+					SecurityAnswer.requestFocus();
+				}
+				
+				else {
+					securityQ = SecurityQuestion.getSelectedIndex();
+					securityanswer = SecurityAnswer.getText();
+					txtrYouHaveNot_1.setVisible(false);
+					txtrYouHaveNot_1.setEnabled(false);
+					SecurityQuestion.setVisible(false);
+					SecurityQuestion.setEnabled(false);
+					SecurityAnswer.setVisible(false);
+					SecurityAnswer.setEnabled(false);
+					txtrThankyou.setVisible(false);
+					txtrThankyou.setEnabled(false);
+					txtrCongratulationsYourChildrens.setVisible(true);
+					txtrCongratulationsYourChildrens.setEnabled(true);
+					parent.CreateProfile(f_uid, f_name, username , defaultPass, securityQ, securityanswer);
+				}
 				
 			}
 		}
@@ -610,19 +778,28 @@ public class Register extends JApplet {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if (Username.isVisible()){
-				username = Username.getSelectedText();
-				Username.setVisible(false);
-				Username.setEnabled(false);
-				SecurityQuestion.setVisible(true);
-				SecurityQuestion.setEnabled(true);
-				SecurityAnswer.setVisible(true);
-				SecurityAnswer.setEnabled(true);
-				SecurityAnswer.setFocusable(true);
-				txtrHelloThereWelcome.setVisible(false);
-				txtrHelloThereWelcome.setEnabled(false);
-				txtrThankyou.setVisible(true);
-				txtrThankyou.setEnabled(true);
+			if (Username.isVisible()){			
+				if (Username.getText().isEmpty()){
+					txtrHelloThereWelcome.setVisible(false);
+					txtrHelloThereWelcome.setEnabled(false);
+					txtrYouHaveNot.setVisible(true);
+					txtrYouHaveNot.setEnabled(true);
+					Username.requestFocus();
+				}
+				else {
+					username = Username.getText();	
+					Username.setVisible(false);
+					Username.setEnabled(false);
+					SecurityQuestion.setVisible(true);
+					SecurityQuestion.setEnabled(true);
+					SecurityAnswer.setVisible(true);
+					SecurityAnswer.setEnabled(true);
+					SecurityAnswer.setFocusable(true);
+					txtrHelloThereWelcome.setVisible(false);
+					txtrHelloThereWelcome.setEnabled(false);
+					txtrThankyou.setVisible(true);
+					txtrThankyou.setEnabled(true);
+				}
 				
 			}
 			
@@ -664,14 +841,7 @@ public class Register extends JApplet {
 			backgroundindex(BackGroundSwitch.getSelectedIndex());
 		}
 	}
-	
-	private class switchpokemon implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			pokemonindex(PokemonSwitch.getSelectedIndex());
-		}
-	}
+
 	
 	private void levelindex(int index){
 		if (index == 0){
@@ -829,75 +999,18 @@ public class Register extends JApplet {
 		
 	}
 	
-	private void pokemonindex(int index){
-		if (index == 0){
-			Pokemon1.setVisible(true);
-		}
-		else if (index == 1){
-			Pokemon2.setVisible(true);
-		}
-		else if (index == 2){
-			Pokemon3.setVisible(true);
-		}
-		else if (index == 3){
-			Pokemon4.setVisible(true);
-		}
-		else if (index == 4){
-			Pokemon5.setVisible(true);
-		}
-		else if (index == 5){
-			Pokemon6.setVisible(true);
-		}
-		else if (index == 6){
-			Pokemon7.setVisible(true);
-		}
-		else if (index == 7){
-			Pokemon8.setVisible(true);
-		}
-		else if (index == 8){
-			Pokemon9.setVisible(true);
-		}
-		else if (index == 9){
-			Pokemon10.setVisible(true);
-		}
-		else if (index == 10){
-			Pokemon11.setVisible(true);
-		}
-		
-		if (lastpindex == 0 && lastpindex != index){
+	private void invisPokemon(){
 			Pokemon1.setVisible(false);
-		}
-		else if (lastpindex == 1 && lastpindex != index){
 			Pokemon2.setVisible(false);
-		}
-		else if (lastpindex == 2 && lastpindex != index){
 			Pokemon3.setVisible(false);
-		}
-		else if (lastpindex == 3 && lastpindex != index){
 			Pokemon4.setVisible(false);
-		}
-		else if (lastpindex == 4 && lastpindex != index){
 			Pokemon5.setVisible(false);
-		}
-		else if (lastpindex == 5 && lastpindex != index){
 			Pokemon6.setVisible(false);
-		}
-		else if (lastpindex == 6 && lastpindex != index){
 			Pokemon7.setVisible(false);
-		}
-		else if (lastpindex == 7 && lastpindex != index){
 			Pokemon8.setVisible(false);
-		}
-		else if (lastpindex == 8 && lastpindex != index){
 			Pokemon9.setVisible(false);
-		}
-		else if (lastpindex == 9 && lastpindex != index){
 			Pokemon10.setVisible(false);
-		}
-		else if (lastpindex == 10 && lastpindex != index){
 			Pokemon11.setVisible(false);
-		}
-		lastpindex = index;
 		
 	}
 	
