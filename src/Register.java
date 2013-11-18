@@ -553,16 +553,6 @@ public class Register extends JApplet {
 		txtrCongratulationsYourChildrens.setFocusable(false);
 		txtrCongratulationsYourChildrens.setEditable(false);
 		btnSubmit.addActionListener(new submit() );
-		
-		EmptyPanel = new JPanel();
-		EmptyPanel.setBounds(0, 0, 800, 600);
-		getContentPane().add(EmptyPanel);
-		EmptyPanel.setLayout(null);
-		
-		btnPlayMinigame = new JButton("Play MiniGame");
-		btnPlayMinigame.setBounds(211, 271, 113, 23);
-		EmptyPanel.add(btnPlayMinigame);
-		btnPlayMinigame.addActionListener(new PlayMGame());
 		getContentPane().add(Register);
 		Register.setEnabled(true);
 		
@@ -604,13 +594,22 @@ public class Register extends JApplet {
 		getContentPane().add(DrillMode);
 		DrillMode.setLayout(null);
 		
+		EmptyPanel = new JPanel();
+		EmptyPanel.setBounds(0, 0, 800, 600);
+		getContentPane().add(EmptyPanel);
+		EmptyPanel.setLayout(null);
+		
+		btnPlayMinigame = new JButton("Play MiniGame");
+		btnPlayMinigame.setBounds(211, 271, 113, 23);
+		EmptyPanel.add(btnPlayMinigame);
+		btnPlayMinigame.addActionListener(new PlayMGame());
+		
 		runtime();
 
 	}
 	
 	public void runtime() {
 		EmptyPanel.setEnabled(false);
-		EmptyPanel.setVisible(false);
 		Register.setEnabled(true);
 		Register.setVisible(true);
 		MiniGame.setEnabled(false);
@@ -767,7 +766,7 @@ public class Register extends JApplet {
 					txtrThankyou.setEnabled(false);
 					txtrCongratulationsYourChildrens.setVisible(true);
 					txtrCongratulationsYourChildrens.setEnabled(true);
-					parent.CreateProfile(f_uid, f_name, username , defaultPass, securityQ, securityanswer);
+					//parent.CreateProfile(f_uid, f_name, username , defaultPass, securityQ, securityanswer);
 				}
 				
 			}
