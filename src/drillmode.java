@@ -17,6 +17,7 @@ public class drillmode extends JApplet {
 	public drillmode() {
 		getContentPane().setBackground(new Color(238, 238, 238));
 		getContentPane().setLayout(null);
+		setBounds(0,0,800,600);
 		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setBackground(new Color(51, 102, 255));

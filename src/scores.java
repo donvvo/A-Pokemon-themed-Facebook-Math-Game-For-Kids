@@ -13,6 +13,7 @@ public class scores extends JApplet {
 	 */
 	public scores() {
 		getContentPane().setLayout(null);
+		setBounds(0,0,800,600);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(29, 35, 95, 27);

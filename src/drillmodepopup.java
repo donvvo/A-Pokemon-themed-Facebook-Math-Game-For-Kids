@@ -11,6 +11,7 @@ public class drillmodepopup extends JApplet {
 	 */
 	public drillmodepopup() {
 		getContentPane().setLayout(null);
+		setBounds(0,0,800,600);
 		
 		JLabel lblNewLabel = new JLabel("Correct/Incorrect\nIf incorrect, show answer");
 		lblNewLabel.setBounds(44, 121, 356, 78);
